@@ -1,0 +1,31 @@
+# Cisco ASA 防火墙 + 内网实验拓扑
+# 拓扑：外网(bridge) -- ASA -- 内网(bridge)
+# 镜像需提前导入到 EVE-NG
+
+lab_name: "cisco_asa_fw"
+author: "admin"
+description: "Cisco ASA 防火墙实验：outside -- ASA -- inside"
+
+nodes:
+  - name: "ASA"
+    template: "asa"
+    image: "asa941-204-sgl-b_rt.gz"
+    ram: 2048
+    cpu: 1
+    ethernet: 2
+    console: "telnet"
+    type: "qemu"
+
+networks:
+  - name: "WAN"
+    type: "bridge"
+    visibility: 1
+  - name: "LAN"
+    type: "bridge"
+    visibility: 1
+
+links:
+  # ASA outside 接口连接 WAN
+  - [ASA, eth0, WAN]
+  # ASA inside 接口连接 LAN
+  - [ASA, eth1, LAN]

@@ -1,0 +1,54 @@
+# 多厂商路由演练
+# 拓扑：Cisco ISP -- Juniper Core -- Huawei Border
+#         |________ Backbone ________|
+#                          |
+#                        LAN
+
+lab_name: "multi_vendor"
+author: "admin"
+description: "多厂商路由演练：Cisco + Juniper + Huawei 路由器通过骨干网互联"
+
+nodes:
+  - name: "ISP-Cisco"
+    template: "iol"
+    image: "i86bi_linux_l2-ipbasek9-ms.j2_155_8g_simplified"
+    ram: 512
+    cpu: 1
+    ethernet: 2
+    console: "telnet"
+    type: "iol"
+
+  - name: "Core-Juniper"
+    template: "qemu"
+    image: "vSRX_15.1X49_D80"
+    ram: 1024
+    cpu: 1
+    ethernet: 2
+    console: "telnet"
+    type: "qemu"
+
+  - name: "Border-Huawei"
+    template: "qemu"
+    image: "huawei_vrp_8.180"
+    ram: 512
+    cpu: 1
+    ethernet: 2
+    console: "telnet"
+    type: "qemu"
+
+networks:
+  - name: "Backbone"
+    type: "bridge"
+    visibility: 1
+  - name: "LAN"
+    type: "bridge"
+    visibility: 1
+
+links:
+  # ISP-Cisco 连接骨干网
+  - [ISP-Cisco, eth0, Backbone]
+  # Core-Juniper 连接骨干网和 LAN
+  - [Core-Juniper, eth0, Backbone]
+  - [Core-Juniper, eth1, LAN]
+  # Border-Huawei 连接骨干网
+  - [Border-Huawei, eth0, Backbone]

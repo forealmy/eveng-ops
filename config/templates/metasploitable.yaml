@@ -1,0 +1,34 @@
+# Kali Linux + Metasploitable 渗透测试靶场
+# 拓扑：Kali -- 内网 -- Metasploitable
+
+lab_name: "metasploitable"
+author: "admin"
+description: "渗透测试靶场：Kali + Metasploitable2"
+
+nodes:
+  - name: "Kali"
+    template: "docker"
+    image: "sammcj/kali-rolling:latest"
+    ram: 2048
+    cpu: 1
+    ethernet: 1
+    console: "vnc"
+    type: "docker"
+
+  - name: "Target"
+    template: "docker"
+    image: "sickrov/btms:latest"
+    ram: 1024
+    cpu: 1
+    ethernet: 1
+    console: "telnet"
+    type: "docker"
+
+networks:
+  - name: "PentestNet"
+    type: "bridge"
+    visibility: 1
+
+links:
+  - [Kali, eth0, PentestNet]
+  - [Target, eth0, PentestNet]

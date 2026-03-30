@@ -1,0 +1,32 @@
+lab_name: "OSPF_H3C_Lab"
+author: "admin"
+description: "3台H3C vSR1000路由器 OSPF单区域实验"
+nodes:
+  - name: "R1"
+    template: "h3cvsr1k"
+    ram: 1024
+    cpu: 1
+    ethernet: 3
+  - name: "R2"
+    template: "h3cvsr1k"
+    ram: 1024
+    cpu: 1
+    ethernet: 3
+  - name: "R3"
+    template: "h3cvsr1k"
+    ram: 1024
+    cpu: 1
+    ethernet: 3
+networks:
+  - name: "Net1"
+    type: "bridge"
+  - name: "Net2"
+    type: "bridge"
+  - name: "Net3"
+    type: "bridge"
+links:
+  - [R1, Gi1/0, Net1]
+  - [R1, Gi2/0, Net2]
+  - [R2, Gi1/0, Net2]
+  - [R2, Gi2/0, Net3]
+  - [R3, Gi1/0, Net3]

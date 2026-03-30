@@ -1,0 +1,44 @@
+# 简单路由实验：两台路由器通过骨干网络互联
+# 拓扑：Router1 -- backbone -- Router2
+
+lab_name: "simple_router"
+author: "admin"
+description: "简单路由实验：两台 Cisco IOL 路由器通过 trunk 互联"
+
+nodes:
+  - name: "Router1"
+    template: "iol"
+    image: "i86bi_linux_l2-ipbasek9-ms.j2_155_8g_simplified"
+    ram: 512
+    cpu: 1
+    ethernet: 2
+    console: "telnet"
+    type: "iol"
+
+  - name: "Router2"
+    template: "iol"
+    image: "i86bi_linux_l2-ipbasek9-ms.j2_155_8g_simplified"
+    ram: 512
+    cpu: 1
+    ethernet: 2
+    console: "telnet"
+    type: "iol"
+
+networks:
+  - name: "Backbone"
+    type: "bridge"
+    visibility: 1
+  - name: "LAN1"
+    type: "bridge"
+    visibility: 1
+  - name: "LAN2"
+    type: "bridge"
+    visibility: 1
+
+links:
+  # Router1 和 Router2 通过 backbone 直连
+  - [Router1, eth0, Router2, eth0]
+  # Router1 连接 LAN1
+  - [Router1, eth1, LAN1]
+  # Router2 连接 LAN2
+  - [Router2, eth1, LAN2]
