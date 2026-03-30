@@ -140,3 +140,6 @@ reports/
 cache/
 *.json
 !config/*.json
+
+# Archived development scripts
+archive/
